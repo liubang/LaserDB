@@ -29,5 +29,5 @@ jobs:
       - run: npm install -g @bazel/bazelisk
       - name: run build
         run: |
-          sudo apt-get install gperf -y
+          sudo apt-get install gperf libaio-dev -y
           bazel build //:release-tars

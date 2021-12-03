@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 # @author ZhongXiu Hao <nmred.hao@gmail.com>
+# @author liubang <it.liubang@gmail.com>
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_jar")
@@ -44,12 +45,18 @@ def include_repositories():
         ],
     )
 
+    # liburing
     http_archive(
         name = "liburing",
-        build_file_content = all_content,
-        strip_prefix = "liburing-liburing-0.7",
-        urls = [
-            "https://github.com/axboe/liburing/archive/liburing-0.7.tar.gz",
+        build_file = "@//thirdparty/liburing:liburing.BUILD",
+        urls = ["https://github.com/axboe/liburing/archive/liburing-0.6.tar.gz"],
+        sha256 = "cf718a0a60c3a54da7ec82a0ca639a8e55d683f931b9aba9da603b849db185de",
+        strip_prefix = "liburing-liburing-0.6",
+        patch_args = [
+            "-p0",
+        ],
+        patches = [
+            "@//thirdparty/liburing:liburing.patch",
         ],
     )
 
@@ -179,7 +186,7 @@ def include_repositories():
             "@//thirdparty/folly:folly1.patch",
         ],
         patch_args = [
-            "-p1"
+            "-p1",
         ],
         urls = [
             "https://github.com/facebook/folly/releases/download/v2020.10.26.00/folly-v2020.10.26.00.tar.gz",
